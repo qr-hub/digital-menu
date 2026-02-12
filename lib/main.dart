@@ -1,13 +1,25 @@
+
+import 'package:admin/pages/log%20out%20pages.dart';
+import 'package:admin/pages/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'pages/log in pages.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MaterialApp(home: AdminPage()));
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    initialRoute: "/login",
+    routes:{
+    "/login":(context)=>LoginPage(),
+    "/admin":(context)=>AdminPage(),
+    "/menu":(context)=>AdminMenuPage()}
+     ));
 }
 
 
@@ -23,10 +35,14 @@ class _AdminPageState extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async => true,
       child: Scaffold(
-        appBar: AppBar(title: const Text("لوحة الطلبات"),
-          automaticallyImplyLeading: false,),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+            title: Center(
+            child: const Text("لوحة الطلبات",style: TextStyle(color: Colors.white),),),
+          backgroundColor: Colors.green,
+          actions:[LogoutButton()]),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection("orders")
@@ -162,9 +178,30 @@ class _AdminPageState extends State<AdminPage> {
                 }
               },
             );
+
           },
         ),
-      ),
+        bottomNavigationBar: BottomAppBar(
+          child: SizedBox(
+            height: 60,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, "/menu");
+              },
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.restaurant_menu),
+                  SizedBox(width: 8),
+                  Text("المنيو"),
+                ],
+              ),
+            ),
+          ),
+        ),
+
+
+      )
     );
   }
 }
