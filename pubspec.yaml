@@ -40,7 +40,9 @@ dependencies:
   font_awesome_flutter: ^10.12.0
   firebase_auth: ^6.1.4
 
+
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
 
@@ -90,3 +92,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "images/na7ya.jpg"
+
+  web:
+    generate: true
+    image_path: "images/na7ya.jpg"
